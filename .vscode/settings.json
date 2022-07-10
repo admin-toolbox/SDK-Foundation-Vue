@@ -4,7 +4,7 @@
     "package-lock.json": true,
     "composer.lock": true,
     "Dockerfile": true,
-    ".github": true,
+    ".github": false,
     ".git": true,
     ".gitignore": false,
     "captain-definition": true,
