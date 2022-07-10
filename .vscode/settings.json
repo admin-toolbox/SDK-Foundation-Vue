@@ -1,0 +1,22 @@
+{
+  "files.exclude": {
+    "node_modules/": false,
+    "package-lock.json": true,
+    "composer.lock": true,
+    "Dockerfile": true,
+    ".github": true,
+    ".git": true,
+    ".gitignore": false,
+    "captain-definition": true,
+    "vite.config.js": false,
+    "backend/vendor": false,
+    "*/dist": true,
+    "package.json": false,
+    "composer.json": true,
+    "tsconfig*.json": true,
+    "env.d.ts": true,
+    ".eslintrc.cjs": true,
+},
+"vue3snippets.enable-compile-vue-file-on-did-save-code": true,
+"cSpell.diagnosticLevel": "Hint",
+}

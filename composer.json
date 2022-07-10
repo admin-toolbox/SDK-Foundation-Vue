@@ -1,0 +1,9 @@
+{
+    "config": {
+        "vendor-dir": "backend/vendor/"
+    },
+    "require": {
+        "bcosca/fatfree-core": "^3.7",
+        "sendgrid/sendgrid": "^7.11"
+    }
+}

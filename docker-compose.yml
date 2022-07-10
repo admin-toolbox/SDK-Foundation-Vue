@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+
+  dev:
+    build: .
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./backend:/var/www/html:rw
+      - ./frontend/dist:/var/www/html/dist/:rw
+    ports:
+      - 81:8080

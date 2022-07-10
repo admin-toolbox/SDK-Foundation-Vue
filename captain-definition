@@ -1,0 +1,16 @@
+{
+    "schemaVersion": 2,
+    "dockerfileLines": [
+        "FROM ghcr.io/premoweb/alpine-nginx-php7.3:latest",
+        "USER root",
+        "RUN mkdir -p /var/www/html/dist/",
+        "ADD backend/ /var/www/html/",
+        "ADD frontend/dist/ /var/www/html/dist/",
+        "RUN chown -R nobody.nobody /var/www/html",
+        "ENV NODE_ENV production",
+        "USER nobody",
+        "ENV PORT 8080",
+        "EXPOSE 8080",
+        "CMD [\"/usr/bin/supervisord\", \"-c\", \"/etc/supervisor/conf.d/supervisord.conf\"]"
+    ]
+}
