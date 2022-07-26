@@ -15,9 +15,7 @@
     "sass": "^1.53.0",
     "vue": "^3.2.37",
     "vue-google-adsense": "^2.0.0",
-    "vue-router": "^4.1.2",
-    "vue-scriptx": "^0.2.5",
-    "vuejs-twitter-feed": "^1.0.1"
+    "vue-router": "^4.1.2"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.14",
