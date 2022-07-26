@@ -4,6 +4,9 @@ const router = new createRouter({
   history: createWebHistory(),
   linkActiveClass: "active",
   mode: "history",
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 }
+  },
   routes: [
     { path: "/", component: () => import("/pages/front-page.vue") },
 

@@ -1,9 +1,10 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import banner from "vite-plugin-banner";
 
 const defaultConfig = {
   mode: "jit",
-  plugins: [vue()],
+  plugins: [vue(), banner('/*! Built using the PremoWeb Software Development Kit for Vue 3 + PHP. Learn more at https://premoweb.com/sdk. */\n  ')],
   base: "/",
   root: "frontend/",
   build: {
@@ -29,13 +30,17 @@ const defaultConfig = {
         changeOrigin: true,
         pathRewrite: { "^/api/": "/api/v1/" },
       },
+      "^/docs/": {
+        target: "http://localhost:81",
+        changeOrigin: true,
+      }
     },
   },
 };
 
 export default defineConfig(({ command }) => {
   if (command === "serve") {
-    //    const isDev = mode === "development";
+    // const isDev = mode === "development";
     return {
       ...defaultConfig,
       // server: {

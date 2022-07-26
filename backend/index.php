@@ -7,7 +7,7 @@ require("/var/www/html/vendor/autoload.php");
 $fw = \Base::instance();
 
 // For everything else, rely on routes specified in config.
-// $fw->config("/var/www/html/config.ini");
+$fw->config("/var/www/html/config.ini");
 
 $fw->set("ONREROUTE", function($route){
     return $route . '/';
