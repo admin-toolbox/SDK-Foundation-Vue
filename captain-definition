@@ -7,8 +7,6 @@
         "ADD backend/ /var/www/html/",
         "ADD frontend/dist/ /var/www/html/dist/",
         "RUN chown -R nobody.nobody /var/www/html",
-        "ADD puzzle-image-generator/quotefall /usr/bin/quotefall",
-        "RUN chmod 755 /usr/bin/quotefall",
         "ENV NODE_ENV production",
         "USER nobody",
         "ENV PORT 8080",
