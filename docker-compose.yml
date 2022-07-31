@@ -10,4 +10,4 @@ services:
       - ./backend:/var/www/html:rw
       - ./frontend/dist:/var/www/html/dist/:rw
     ports:
-      - 81:8080
+      - 81:80
