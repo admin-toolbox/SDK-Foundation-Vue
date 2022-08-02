@@ -1,6 +1,6 @@
 # The ultimate Vue 3 + PHP web development experience!
 
-From development to deployment, this SDK when paired with your own server running Caprover PaaS provides for the ultimate web development experience.
+From development to deployment, this SDK when paired with your own server running Caprover PaaS (https://caprover.com) provides for the ultimate web development experience.
 Self host your apps via Caprover on a cheap VPS for as little as $20/mo (or less). I use and recommend Vultr. (https://www.vultr.com/?ref=7182700).
 
 More on Caprover forthcoming, as this project evolves and is documented.
