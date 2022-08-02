@@ -1,5 +1,10 @@
 # The ultimate Vue 3 + PHP web development experience!
 
+From development to deployment, this SDK when paired with your own server running Caprover PaaS provides for the ultimate web development experience.
+Self host your apps via Caprover on a cheap VPS for as little as $20/mo (or less). I use and recommend Vultr. (https://www.vultr.com/?ref=7182700).
+
+More on Caprover forthcoming, as this project evolves and is documented.
+
 FRONTEND: Vue 3 + Vite build system + Foundation for Sites (SASS edition). Swap out the CSS framwwork with anything you'd like.
 
 BACKEND: PHP 8.1.8 served via FastCGI (FPM-PHP) through Nginx on Alpine Linux. Nginx routes all traffic to /index.php by default. Fat Free Framework serves /dist/index.html for routes not starting with /api/.
@@ -9,15 +14,13 @@ Prerequisites for Windows, macOS & Linux users:
   - REQUIRED: Docker Desktop for Windows/macOS and optionally Linux (https://docs.docker.com/desktop/). Linux can use native Docker CE + Docker Compose or choose Docker Desktop.
   - REQUIRED: Node 16 above (https://nodejs.org/en/) - Choose the current "stable" release for best results.
   - REQUIRED: Composer 2 (http://getcomposer.org) - NOTE: Requires PHP. You can get PHP from https://php.net
-  
-  - OPTIONAL: VSCode (https://code.visualstudio.com/) or the Free/Libre VSCodium (https://vscodium.com/) is recommded.
-  - OPTIONAL Git Bash, also available for Windows, Linux and macOS (https://git-scm.com/downloads).
-  - HIGHLY RECOMMENDED: Volar extention for VSCode/VSCodium. (https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+  - HIGHLY RECOMMENDED: Git Bash, also available for Windows, Linux and macOS (https://git-scm.com/downloads).  
+  - HIGHLY RECOMMENDED: VSCode (https://code.visualstudio.com/) or the Free/Libre VSCodium (https://vscodium.com/) is recommded.
+  - HIGHLY RECOMMENDED: Volar extention for VSCode/VSCodium users. (https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
-This project combines a Vue 3 frontend and PHP backend in production but in development these are running on seperate servers
+This project combines a Vue 3 frontend and PHP backend in production but in development these are running on seperate servers:
 
-
-Development Mode:
+Development Mode: (Automatically in dev mode when using `docker-compose up`)
   Get going with `docker compose up` to launch backend PHP server and `npm run dev` in another terminal for the Vite dev server.
   Vite dev server is running on port 80 to serve your front-end with hot-module-reload features. Open browser to http://localhost:80
   Your backend server runs PHP is on port 81. Used mainly for creating API routes.
@@ -25,7 +28,7 @@ Development Mode:
   Docker Compose stack maps frontend/dist/ directory to backend/dist/ in docker containers.
   Backend server always serves the /dist/index.html for any route not starting with /api/. Run `npm build` to create this file.
 
-Production Mode:
+Production Mode: (Automatically set in deployments)
   Simply commit and push your project's code to the main branch to kick off a build using the provided Github Workflow deploy file.
   The Workflow file will build and merge your frontend dist/ directory with the backend/ files for deployment.
  
