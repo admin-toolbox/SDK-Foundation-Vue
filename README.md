@@ -1,4 +1,4 @@
-# SDK-Foundation-Vue
+# The ultimate Vue 3 + PHP web development experience!
 
 FRONTEND: Vue 3 + Vite build system + Foundation for Sites (SASS edition). Swap out the CSS framwwork with anything you'd like.
 
@@ -12,6 +12,7 @@ Prerequisites for Windows, macOS & Linux users:
   
   - OPTIONAL: VSCode (https://code.visualstudio.com/) or the Free/Libre VSCodium (https://vscodium.com/) is recommded.
   - OPTIONAL Git Bash, also available for Windows, Linux and macOS (https://git-scm.com/downloads).
+  - HIGHLY RECOMMENDED: Volar extention for VSCode/VSCodium. (https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
 This project combines a Vue 3 frontend and PHP backend in production but in development these are running on seperate servers
 
@@ -30,8 +31,8 @@ Production Mode:
  
  Dependency Management:
  
-    All PHP dependencies are managed with Composer. After cloning this project to your machine, use `composer install` to install the PHP dependencies.
-    All Javascript dependencies are managed with NPM. After cloning this project to yoru machine, use `npm install` to install the Javascript modules.
+   All PHP dependencies are managed with Composer. After cloning this project to your machine, use `composer install` to install the PHP dependencies.
+   All Javascript dependencies are managed with NPM. After cloning this project to yoru machine, use `npm install` to install the Javascript modules.
     
  For total noobs:
   Composer and Docker Compose are unrelated. Docker Compose is used to deploy a software stack while Composer is used to manage PHP dependencies.
