@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -36,7 +36,7 @@ jobs:
             captain-definition
           outPath: deploy.tar
 
-      - uses: premoweb/deploy-to-caprover@v1.0.2
+      - uses: caprover/deploy-to-caprover@main
         with:
           server: '${{ secrets.CAPROVER_SERVER }}'
           app: '${{ secrets.APP_NAME }}'
