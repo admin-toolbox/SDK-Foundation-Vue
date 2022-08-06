@@ -7,7 +7,7 @@
     ".github": false,
     ".git": false,
     ".gitignore": false,
-    "captain-definition": true,
+    // "captain-definition": true,
     "vite.config.js": true,
     "backend/vendor": true,
     "*/dist": true,
