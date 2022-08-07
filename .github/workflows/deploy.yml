@@ -35,8 +35,9 @@ jobs:
             frontend/dist/
             captain-definition
           outPath: deploy.tar
-
-      - uses: caprover/deploy-from-github@main
+  
+      - name: Deploy App to Caprover
+        uses: caprover/deploy-from-github@v1.0.1
         with:
           server: '${{ secrets.CAPROVER_SERVER }}'
           app: '${{ secrets.APP_NAME }}'
