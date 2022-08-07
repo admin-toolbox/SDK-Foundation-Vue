@@ -8,8 +8,6 @@
         "ADD frontend/dist/ /var/www/html/dist/",
         "RUN chown -R nobody.nobody /var/www/html",
         "ENV NODE_ENV production",
-        "USER nobody",
-        "ENV PORT 80",
-        "EXPOSE 80"
+        "USER nobody"
     ]
 }

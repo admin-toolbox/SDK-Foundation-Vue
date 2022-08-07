@@ -7,15 +7,8 @@
 </template>
 
 <script>
-import $ from "jquery";
-
 export default {
-  components: {},
   mounted() {
-    $("body").on("swipeleft", function () {
-      $(".offcanvas-trigger").click();
-    });
-
     $(document).foundation();
   },
 };
