@@ -45,7 +45,7 @@ final class Base extends Prefab implements ArrayAccess {
 	//@{ Framework details
 	const
 		PACKAGE='Fat-Free Framework',
-		VERSION='3.8.0-Release';
+		VERSION='3.8.1-Release';
 	//@}
 
 	//@{ HTTP status codes (RFC 2616)
@@ -166,13 +166,17 @@ final class Base extends Prefab implements ArrayAccess {
 	*	Replace tokenized URL with available token values
 	*	@return string
 	*	@param $url array|string
+	*	@param $addParams boolean merge default PARAMS from hive into args
 	*	@param $args array
 	**/
-	function build($url,$args=[]) {
-		$args+=$this->hive['PARAMS'];
+	function build($url, $args=[], $addParams=TRUE) {
+		if ($addParams)
+			$args+=$this->recursive($this->hive['PARAMS'], function($val) {
+				return implode('/', array_map('urlencode', explode('/', $val)));
+			});
 		if (is_array($url))
 			foreach ($url as &$var) {
-				$var=$this->build($var,$args);
+				$var=$this->build($var,$args, false);
 				unset($var);
 			}
 		else {
@@ -879,11 +883,15 @@ final class Base extends Prefab implements ArrayAccess {
 				$ref=new ReflectionClass($arg);
 				if ($ref->iscloneable()) {
 					$arg=clone($arg);
-					$cast=is_a($arg,'IteratorAggregate')?
+					$cast=($it=is_a($arg,'IteratorAggregate'))?
 						iterator_to_array($arg):get_object_vars($arg);
-					foreach ($cast as $key=>$val)
+					foreach ($cast as $key=>$val) {
+						// skip inaccessible properties #350
+						if (!$it && !isset($arg->$key))
+							continue;
 						$arg->$key=$this->recursive(
 							$val,$func,array_merge($stack,[$arg]));
+					}
 				}
 				return $arg;
 			case 'array':
@@ -1133,10 +1141,12 @@ final class Base extends Prefab implements ArrayAccess {
 		foreach (preg_grep('/^(?!tr)/i',$this->languages) as $locale) {
 			if ($windows) {
 				$parts=explode('-',$locale);
-				$locale=@constant('ISO::LC_'.$parts[0]);
+				if (!defined('ISO::LC_'.$parts[0]))
+					continue;
+				$locale=constant('ISO::LC_'.$parts[0]);
 				if (isset($parts[1]) &&
-					$country=@constant('ISO::CC_'.strtolower($parts[1])))
-					$locale.='-'.$country;
+					defined($cc='ISO::CC_'.strtolower($parts[1])))
+					$locale.='-'.constant($cc);
 			}
 			$locale=str_replace('-','_',$locale);
 			$locales[]=$locale.'.'.ini_get('default_charset');
@@ -1710,6 +1720,7 @@ final class Base extends Prefab implements ArrayAccess {
 			$route=NULL;
 			$ptr=$this->hive['CLI']?self::REQ_CLI:$this->hive['AJAX']+1;
 			if (isset($routes[$ptr][$this->hive['VERB']]) ||
+				($preflight && isset($routes[$ptr])) ||
 				isset($routes[$ptr=0]))
 				$route=$routes[$ptr];
 			if (!$route)
@@ -2371,8 +2382,11 @@ final class Base extends Prefab implements ArrayAccess {
 		);
 		set_error_handler(
 			function($level,$text,$file,$line) {
-				if ($level & error_reporting())
-					$this->error(500,$text,NULL,$level);
+				if ($level & error_reporting()) {
+					$trace=$this->trace(null, false);
+					array_unshift($trace,['file'=>$file,'line'=>$line]);
+					$this->error(500,$text,$trace,$level);
+				}
 			}
 		);
 		if (!isset($_SERVER['SERVER_NAME']) || $_SERVER['SERVER_NAME']==='')
@@ -2483,13 +2497,7 @@ final class Base extends Prefab implements ArrayAccess {
 			'CACHE'=>FALSE,
 			'CASELESS'=>TRUE,
 			'CLI'=>$cli,
-			'CORS'=>[
-				'headers'=>'',
-				'origin'=>FALSE,
-				'credentials'=>FALSE,
-				'expose'=>FALSE,
-				'ttl'=>0
-			],
+			'CORS'=>[],
 			'DEBUG'=>0,
 			'DIACRITICS'=>[],
 			'DNSBL'=>'',
@@ -2547,6 +2555,13 @@ final class Base extends Prefab implements ArrayAccess {
 			'VERB'=>&$_SERVER['REQUEST_METHOD'],
 			'VERSION'=>self::VERSION,
 			'XFRAME'=>'SAMEORIGIN'
+		];
+		$this->hive['CORS']+=[
+			'headers'=>'',
+			'origin'=>FALSE,
+			'credentials'=>FALSE,
+			'expose'=>FALSE,
+			'ttl'=>0
 		];
 		if (!headers_sent() && session_status()!=PHP_SESSION_ACTIVE) {
 			unset($jar['expire']);

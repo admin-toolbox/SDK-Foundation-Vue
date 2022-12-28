@@ -1,3 +1,3 @@
 <template>
-  <p>Nothing here yet.</p>
+  <p>This is a test page.</p>
 </template>

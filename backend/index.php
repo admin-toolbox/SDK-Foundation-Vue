@@ -21,6 +21,6 @@ $fw->route(["GET /", "GET /*"], function(\Base $fw) {
     echo file_get_contents("/var/www/html/dist/index.html");
 });
 
-$fw->run(); 
+$fw->run();
 
 ?>

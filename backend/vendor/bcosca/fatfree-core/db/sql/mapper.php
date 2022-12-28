@@ -149,13 +149,11 @@ class Mapper extends \DB\Cursor {
 	*	@return mixed
 	*	@param $func string
 	*	@param $args array
+	*	@deprecated (this is only used for custom dynamic properties that are callables
 	**/
 	function __call($func,$args) {
-		return call_user_func_array(
-			(array_key_exists($func,$this->props)?
-				$this->props[$func]:
-				$this->$func),$args
-		);
+		$callable = (array_key_exists($func,$this->props) ? $this->props[$func] : $this->$func);
+		return $callable ? call_user_func_array($callable,$args) : null;
 	}
 
 	/**
@@ -222,7 +220,7 @@ class Mapper extends \DB\Cursor {
 		if (isset($this->as))
 			$sql.=' AS '.$this->db->quotekey($this->as);
 		$args=[];
-		if (is_array($filter)) {
+		if (is_array($filter) && !empty($filter)) {
 			$args=isset($filter[1]) && is_array($filter[1])?
 				$filter[1]:
 				array_slice($filter,1,NULL,TRUE);
@@ -427,6 +425,7 @@ class Mapper extends \DB\Cursor {
 		$values='';
 		$filter='';
 		$pkeys=[];
+		$aikeys=[];
 		$nkeys=[];
 		$ckeys=[];
 		$inc=NULL;
@@ -449,6 +448,9 @@ class Mapper extends \DB\Cursor {
 				unset($field);
 			}
 		foreach ($this->fields as $key=>&$field) {
+			if ($field['auto_inc']) {
+                $aikeys[] = $key;
+            }
 			if ($field['pkey']) {
 				$field['previous']=$field['value'];
 				if (!$inc && empty($field['value']) &&
@@ -469,7 +471,7 @@ class Mapper extends \DB\Cursor {
 			}
 			unset($field);
 		}
-		if ($fields) {
+        if ($fields) {
 			$add=$aik='';
 			if ($this->engine=='pgsql' && !empty($pkeys)) {
 				$names=array_keys($pkeys);
@@ -478,7 +480,7 @@ class Mapper extends \DB\Cursor {
 			}
 			$lID=$this->db->exec(
 				(preg_match('/mssql|dblib|sqlsrv/',$this->engine) &&
-				array_intersect(array_keys($pkeys),$ckeys)?
+				array_intersect(array_keys($aikeys),$ckeys)?
 					'SET IDENTITY_INSERT '.$this->table.' ON;':'').
 				'INSERT INTO '.$this->table.' ('.$fields.') '.
 				'VALUES ('.$values.')'.$add,$args

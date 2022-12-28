@@ -124,8 +124,8 @@ class SQL {
 	function value($type,$val) {
 		switch ($type) {
 			case self::PARAM_FLOAT:
-				if (!is_string($val))
-					$val=str_replace(',','.',$val);
+				if (!is_string($val) && $val !== NULL)
+					$val=str_replace(',','.',(string) $val);
 				return $val;
 			case \PDO::PARAM_NULL:
 				return NULL;
@@ -319,7 +319,7 @@ class SQL {
 		$cache=\Cache::instance();
 		if ($fw->CACHE && $ttl &&
 			($cached=$cache->exists(
-				$hash=$fw->hash($this->dsn.$table).'.schema',$result)) &&
+				$hash=$fw->hash($this->dsn.$table.(is_array($fields) ? implode(',',$fields) : $fields)).'.schema',$result)) &&
 			$cached[0]+$ttl>microtime(TRUE))
 			return $result;
 		if (strpos($table,'.'))

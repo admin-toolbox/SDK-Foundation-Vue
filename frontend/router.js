@@ -10,9 +10,6 @@ const router = new createRouter({
   routes: [
     { path: "/", component: () => import("/pages/front-page.vue") },
 
-    //General Contact
-    { path: "/contact/", component: () => import("/pages/contact-page.vue") },
-
     // Not found
     {
       path: "/:catchAll(.*)",

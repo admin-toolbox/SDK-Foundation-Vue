@@ -31,6 +31,7 @@ jobs:
           command: c
           cwd: "./"
           files: |
+            webserver/
             backend/
             frontend/dist/
             captain-definition
